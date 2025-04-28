@@ -35,24 +35,30 @@
             <button type="submit">Buscar</button>
         </form>
 
-        {% if resultado %}
+        {% if livros %}
         <div class="results-container">
-            <h2>Resultado da Busca:</h2>
+            {% if metodo %}
+            <div class="sort-stats">
+                <p>Ordenado com <strong>{{ metodo }}</strong> em <strong>{{ "%.2f"|format(tempo) }}ms</strong> usando <strong>{{ iteracoes }}</strong> iterações</p>
+            </div>
+            {% endif %}
+            
             <ul class="result-list">
-                {% for livro in resultado %}
+                {% for livro in livros %}
                     <li>
                         <strong>{{ livro.titulo }}</strong> - {{ livro.autor }} ({{ livro.ano }})
+                        <span class="isbn-text"> ISBN: {{ livro.ISBN }}</span>
                     </li>
                 {% endfor %}
             </ul>
         </div>
-        {% elif request.method == 'POST' %}
-        <p class="no-results">Nenhum resultado encontrado.</p>
+        {% else %}
+        <p class="no-results">Nenhum livro encontrado.</p>
         {% endif %}
 
         <div class="links">
             <a href="/estatisticas">📊 Ver Estatísticas</a>
-            <a href="/livros">📚 Ver Todos os Livros</a>
+            <a href="http://127.0.0.1:5000/livros">📚 Ver Todos os Livros</a>
         </div>
     </div>
     <footer class="footer">
@@ -61,7 +67,7 @@
             <p><strong>Turma:</strong> 3º Ano B</p>
             <p><strong>Atividade:</strong> UN2: AV2 - Sistema de Busca e Ordenação de Acervo de Livros</p>
             <p><strong>Email:</strong> <a href="mailto:gabriellopes.zip@email.com">gabriellopes.zip@email.com</a></p>
-            <p><strong>GitHub:</strong> <a href="https://github.com/seuusuario/seurepositorio" target="_blank">github.com/seuusuario/seurepositorio</a></p>
+            <p><strong>GitHub:</strong> <a href="https://github.com/gabrieldonlopes/ifba_project/tree/main/estr_dados-algoritmos/code" target="_blank">github.com/seuusuario/seurepositorio</a></p>
         </div>
     </footer>
 </body>

@@ -5,8 +5,13 @@ class Livro(BaseModel):
     ISBN: str
     titulo: str
     autor: str
-    paginas: int 
-    ano: int
+    paginas: str 
+    ano: str
+
+class MetodoRegistro(BaseModel):
+    algoritmo: str
+    iteracoes: int
+    tempo: float
 
 
 def load_db() -> List[Livro]:
@@ -19,8 +24,8 @@ def load_db() -> List[Livro]:
                 ISBN=values[0],
                 titulo=values[1],
                 autor=values[2],
-                paginas=int(values[3]),
-                ano=int(values[4])
+                paginas=str(values[3]),
+                ano=str(values[4])
             )
             acervo_principal.append(livro)
     

@@ -133,5 +133,36 @@ def quick_sort(arr: List[Livro], field: str):
     sorted_arr = arr.copy()
     total_iterations = quick_sort_rec(sorted_arr, 0, len(sorted_arr) - 1)
     tempo_execucao = (time() - start_time) * 1000
+
+    return sorted_arr, total_iterations, tempo_execucao
+
+def quick_sort_simple(arr: List[Livro], field: str):
+    start_time = time()
+    
+    def _quick_sort_recursive(sub_arr):
+        if len(sub_arr) <= 1:
+            return sub_arr, 0
+        
+        pivot = sub_arr[-1]
+        pivot_val = getattr(pivot, field, "").lower()
+        
+        # Contagem de iterações: 2 comparações por elemento (<= e >)
+        iterations = 2 * (len(sub_arr) - 1)
+        
+        # Filtrando elementos
+        smaller = [x for x in sub_arr[:-1] if getattr(x, field, "").lower() <= pivot_val]
+        greater = [x for x in sub_arr[:-1] if getattr(x, field, "").lower() > pivot_val]
+        
+        # Chamadas recursivas
+        sorted_smaller, iter_small = _quick_sort_recursive(smaller)
+        sorted_greater, iter_great = _quick_sort_recursive(greater)
+        
+        return (
+            sorted_smaller + [pivot] + sorted_greater,
+            iterations + iter_small + iter_great
+        )
+    
+    sorted_arr, total_iterations = _quick_sort_recursive(arr.copy())
+    tempo_execucao = (time() - start_time) * 1000  # Milissegundos
     
     return sorted_arr, total_iterations, tempo_execucao

@@ -1,79 +1,79 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acervo de Livros</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1>Acervo de Livros</h1>
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Acervo de Livros</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Acervo de Livros</h1>
 
-        <form method="POST" class="sort-form">
-            <div>
-                <label for="algoritmo">Ordenar usando:</label>
-                <select id="algoritmo" name="algoritmo">
-                    <option value="bubble">Bubble Sort</option>
-                    <option value="insertion">Insertion Sort</option>
-                    <option value="selection">Selection Sort</option>
-                    <option value="merge">Merge Sort</option>
-                    <option value="quick">Quick Sort</option>
-                    <option value="simple_quick">Quick Sort (simplificado)</option>
-                </select>
-            </div>
+            <form method="POST" class="sort-form">
+                <div>
+                    <label for="algoritmo">Ordenar usando:</label>
+                    <select id="algoritmo" name="algoritmo">
+                        <option value="bubble">Bubble Sort</option>
+                        <option value="insertion">Insertion Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="merge">Merge Sort</option>
+                        <option value="quick">Quick Sort</option>
+                        <option value="simple_quick">Quick Sort (simplificado)</option>
+                    </select>
+                </div>
 
-            <div>
-                <label for="campo">Ordenar por:</label>
-                <select id="campo" name="campo">
-                    <option value="titulo" selected>Título</option>
-                    <option value="autor">Autor</option>
-                    <option value="ano">Ano</option>
-                    <option value="ISBN">ISBN</option>
-                </select>
-            </div>
+                <div>
+                    <label for="campo">Ordenar por:</label>
+                    <select id="campo" name="campo">
+                        <option value="titulo" selected>Título</option>
+                        <option value="autor">Autor</option>
+                        <option value="ano">Ano</option>
+                        <option value="ISBN">ISBN</option>
+                    </select>
+                </div>
 
-            <div>
-                <button type="submit">Ordenar</button>
-            </div>
-        </form>
+                <div>
+                    <button type="submit">Ordenar</button>
+                </div>
+            </form>
 
-        {% if livros %}
-        <div class="results-container">
-            {% if algoritmo %}
-            <div class="sort-stats">
-                <p>Ordenado com <strong>{{ algoritmo }}</strong> em <strong>{{ "%.2f"|format(tempo) }}ms</strong> usando <strong>{{ iteracoes }}</strong> iterações</p>
+            {% if livros %}
+            <div class="results-container">
+                {% if algoritmo %}
+                <div class="sort-stats">
+                    <p>Ordenado com <strong>{{ algoritmo }}</strong> em <strong>{{ "%.2f"|format(tempo) }}ms</strong> usando <strong>{{ iteracoes }}</strong> iterações</p>
+                </div>
+                {% endif %}
+                
+                <ul class="result-list">
+                    {% for livro in livros %}
+                        <li>
+                            <strong>{{ livro.titulo }}</strong> - {{ livro.autor }} ({{ livro.ano }})
+                            <span class="isbn-text"> ISBN: {{ livro.ISBN }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
+            {% else %}
+            <p class="no-results">Nenhum livro encontrado.</p>
             {% endif %}
-            
-            <ul class="result-list">
-                {% for livro in livros %}
-                    <li>
-                        <strong>{{ livro.titulo }}</strong> - {{ livro.autor }} ({{ livro.ano }})
-                        <span class="isbn-text"> ISBN: {{ livro.ISBN }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% else %}
-        <p class="no-results">Nenhum livro encontrado.</p>
-        {% endif %}
 
 
-        <div class="links">
-            <a href="/">🔍 Voltar para a Busca</a>
-            <a href="/estatisticas">📊 Ver Estatísticas</a>
+            <div class="links">
+                <a href="/">🔍 Voltar para a Busca</a>
+                <a href="/estatisticas">📊 Ver Estatísticas</a>
+            </div>
         </div>
-    </div>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <p><strong>Nome:</strong> Gabriel do Nascimento Lopes</p>
-            <p><strong>Turma:</strong> 3º Ano B</p>
-            <p><strong>Atividade:</strong> UN2: AV2 - Sistema de Busca e Ordenação de Acervo de Livros</p>
-            <p><strong>Email:</strong> <a href="mailto:gabriellopes.zip@email.com">gabriellopes.zip@email.com</a></p>
-            <p><strong>GitHub:</strong> <a href="https://github.com/gabrieldonlopes/ifba_project/tree/main/estr_dados-algoritmos/code" target="_blank">github.com/gabrieldonlopes</a></p>
-        </div>
-    </footer>
-</body>
-</html>
+        <footer class="footer">
+            <div class="footer-content">
+                <p><strong>Nome:</strong> Gabriel do Nascimento Lopes</p>
+                <p><strong>Turma:</strong> 3º Ano B</p>
+                <p><strong>Atividade:</strong> UN2: AV2 - Sistema de Busca e Ordenação de Acervo de Livros</p>
+                <p><strong>Email:</strong> <a href="mailto:gabriellopes.zip@email.com">gabriellopes.zip@email.com</a></p>
+                <p><strong>GitHub:</strong> <a href="https://github.com/gabrieldonlopes/ifba_project/tree/main/estr_dados-algoritmos/code" target="_blank">github.com/gabrieldonlopes</a></p>
+            </div>
+        </footer>
+    </body>
+    </html>

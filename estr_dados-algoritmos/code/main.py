@@ -3,35 +3,40 @@ from flask import (
 )
 from typing import List
 
-from database import load_db,Livro
+from database import load_db,Livro, MetodoRegistro
 from alg.search_alg import linear_search,binary_search
 from alg.sort_alg import (
-    bubble_sort,insertion_sort,selection_sort,merge_sort,quick_sort
+    bubble_sort,insertion_sort,selection_sort,merge_sort,quick_sort,quick_sort_simple
 )
 app = Flask(__name__)
 
 acervo_principal: List[Livro] = load_db()
+registro_buscas: List[MetodoRegistro] = []
+registro_sorts: List[MetodoRegistro] = []
 
 @app.route("/", methods=["GET","POST"])
 def home():
     resultado = []
     iteracoes = 0
     tempo = 0
-    metodo = ""
+    algoritmo = ""
 
     if request.method == 'POST':
         termo = request.form["termo"]
-        metodo = request.form["metodo"]
+        algoritmo = request.form["algoritmo"]
         campo = request.form.get("campo", "titulo") # valor padrão para o campo=titulo
 
-        if metodo == "linear":
+        if algoritmo == "linear":
             resultado, iteracoes, tempo = linear_search(termo,acervo_principal,campo)
-        elif metodo == "binaria":
+        elif algoritmo == "binaria":
             resultado, iteracoes, tempo = binary_search(termo,acervo_principal,campo)
-        print(f"método{metodo}={iteracoes} e {tempo}ms")
+        
+        registro_buscas.append(MetodoRegistro(algoritmo=algoritmo,iteracoes=iteracoes,tempo=tempo))
+
+#        print(f"método{metodo}={iteracoes} e {tempo}ms")
 
 
-    return render_template("index.html", livros=resultado,metodo=metodo, iteracoes=iteracoes, tempo=tempo)
+    return render_template("index.html", livros=resultado,metodo=algoritmo, iteracoes=iteracoes, tempo=tempo)
 
 @app.route("/livros", methods=["GET", "POST"])
 def books():
@@ -55,12 +60,25 @@ def books():
         elif algoritmo == "quick":
             resultado, iteracoes, tempo = quick_sort(acervo_principal, campo)
         elif algoritmo == "simple_quick":
-            resultado, iteracoes, tempo = quick_sort(acervo_principal, campo)  # Nome diferente para evitar conflito
-
+            resultado, iteracoes, tempo = quick_sort_simple(acervo_principal, campo)
+        
+        registro_sorts.append(MetodoRegistro(algoritmo=algoritmo,iteracoes=iteracoes,tempo=tempo))
+    
 
     return render_template("books.html", livros=resultado, algoritmo=algoritmo, iteracoes=iteracoes, tempo=tempo)
 
+@app.route("/estatisticas")
+def estatisticas_endpoint():
+    buscas_json = [registro_buscas_obj.model_dump() for registro_buscas_obj in registro_buscas]
+    sorts_json = [registro_sorts_obj.model_dump() for registro_sorts_obj in registro_sorts]
+
+    return render_template(
+        "estatisticas.html",
+        registro_buscas=buscas_json,
+        registro_sorts=sorts_json
+    )
+
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
 

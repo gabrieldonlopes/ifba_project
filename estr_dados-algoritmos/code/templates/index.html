@@ -15,11 +15,11 @@
 
             <div class="radio-buttons">
                 <label>
-                    <input type="radio" name="metodo" value="linear">
+                    <input type="radio" name="algoritmo" value="linear">
                     Busca Linear
                 </label>
                 <label>
-                    <input type="radio" name="metodo" value="binaria">
+                    <input type="radio" name="algoritmo" value="binaria">
                     Busca Binária
                 </label>
             </div>
@@ -39,7 +39,7 @@
         <div class="results-container">
             {% if metodo %}
             <div class="sort-stats">
-                <p>Ordenado com <strong>{{ metodo }}</strong> em <strong>{{ "%.2f"|format(tempo) }}ms</strong> usando <strong>{{ iteracoes }}</strong> iterações</p>
+                <p>Ordenado com <strong>{{ algoritmo }}</strong> em <strong>{{ "%.2f"|format(tempo) }}ms</strong> usando <strong>{{ iteracoes }}</strong> iterações</p>
             </div>
             {% endif %}
             
@@ -58,7 +58,7 @@
 
         <div class="links">
             <a href="/estatisticas">📊 Ver Estatísticas</a>
-            <a href="http://127.0.0.1:5000/livros">📚 Ver Todos os Livros</a>
+            <a href="/livros">📚 Ver Todos os Livros</a>
         </div>
     </div>
     <footer class="footer">

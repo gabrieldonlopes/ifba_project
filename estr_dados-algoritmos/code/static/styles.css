@@ -1,40 +1,33 @@
-/* Reset padrão para remover margens e paddings */
+/* RESET BÁSICO */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Configurações básicas do HTML e Body */
+/* ESTRUTURA BASE */
 html, body {
-    margin: 0;
-    padding: 0;
     display: flex;
     flex-direction: column;
-}
-
-body {
+    min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #121212;
-    color: #fff;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    color: #e0e0e0;
 }
 
-/* Container principal da página */
+/* CONTAINER CENTRAL */
 .container {
     flex: 1;
-    width: 100%;
     max-width: 900px;
+    width: 100%;
     padding: 40px;
-    margin-top: 40px;
-    background-color: #1d1d1d;
+    margin: 40px auto;
+    background-color: #1e1e1e;
     border-radius: 16px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
-/* Título principal */
+/* TÍTULO */
 h1 {
     font-size: 2.5rem;
     text-align: center;
@@ -42,21 +35,28 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* Formulários padrão */
-form {
+/* FORMULÁRIO */
+form, .sort-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-top: 20px;
 }
 
-/* Labels dos campos */
+.sort-form {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* LABEL E INPUTS */
 label {
     font-size: 1.1rem;
     font-weight: 600;
 }
 
-/* Campos de texto */
-input[type="text"] {
+input[type="text"], select {
     padding: 12px;
     font-size: 1rem;
     border-radius: 8px;
@@ -66,25 +66,19 @@ input[type="text"] {
     width: 100%;
 }
 
-/* Botões de rádio */
-.radio-buttons {
-    display: flex;
-    justify-content: space-between;
-}
-
 input[type="radio"] {
     margin-right: 8px;
 }
 
-/* Botões padrão */
+/* BOTÕES */
 button {
     padding: 12px 20px;
     font-size: 1.1rem;
     background-color: #61dafb;
     border: none;
     border-radius: 8px;
-    color: #000;
     font-weight: 600;
+    color: #000;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
@@ -94,17 +88,7 @@ button:hover {
     transform: scale(1.05);
 }
 
-/* Campos de seleção */
-select {
-    padding: 12px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #444;
-    background-color: #2a2a2a;
-    color: #fff;
-}
-
-/* Container dos resultados */
+/* RESULTADOS */
 .results-container {
     margin-top: 30px;
     background-color: #2b2b2b;
@@ -118,19 +102,18 @@ select {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
 }
 
-/* Lista dos resultados */
 .result-list {
-    margin-top: 10px;
     list-style: none;
     padding: 0;
+    margin-top: 10px;
 }
 
 .result-list li {
     background-color: #333;
-    margin: 10px 0;
     padding: 12px;
     border-radius: 8px;
     font-size: 1.1rem;
+    margin: 10px 0;
     transition: background-color 0.3s ease;
 }
 
@@ -138,69 +121,48 @@ select {
     background-color: #444;
 }
 
-/* Mensagem de nenhum resultado */
 .no-results {
     text-align: center;
     color: #e74c3c;
     font-size: 1.1rem;
 }
-
-/* Links da página */
-.links {
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-between;
+.result-section {
+    position: relative;
+    height: 350px; 
+    overflow: hidden;   
 }
 
-.links a {
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* LINKS */
+.links, .nav-links {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+a {
     color: #61dafb;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
-.links a:hover {
+a:hover {
     color: #21a1f1;
 }
 
-/* Rodapé */
-.footer {
-    background-color: #181818;
-    color: #ccc;
-    padding: 20px;
-    text-align: center;
-    font-size: 0.9rem;
-    border-top: 1px solid #333;
-    margin-top: 40px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.footer a {
-    color: #61dafb;
-    text-decoration: none;
-}
-
-.footer a:hover {
-    text-decoration: underline;
-}
-
-.footer-content {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    line-height: 1.5;
-}
-
-/* Barra de navegação */
+/* NAVBAR */
 .navbar {
     width: 100%;
     background-color: #1d1d1d;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    margin-bottom: 20px;
 }
 
 .navbar-content {
@@ -211,66 +173,7 @@ select {
     gap: 20px;
 }
 
-/* Links da navbar */
-.nav-links {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-.nav-links a {
-    color: #61dafb;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.nav-links a:hover {
-    color: #21a1f1;
-}
-
-/* Formulário de ordenação (estilo horizontal) */
-.sort-form {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap; /* Responsividade */
-    margin-top: 20px;
-}
-
-.sort-form label {
-    font-size: 1rem;
-    font-weight: 500;
-}
-
-.sort-form select {
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #444;
-    background-color: #2a2a2a;
-    color: #fff;
-}
-
-.sort-form button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #61dafb;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    color: #000;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.sort-form button:hover {
-    background-color: #21a1f1;
-}
-
-/* Lista de livros */
+/* LISTA DE LIVROS */
 .book-list {
     list-style: none;
     padding: 0;
@@ -289,32 +192,59 @@ select {
 .book-list li:hover {
     background-color: #333;
 }
+
 .isbn-text {
     font-size: 0.85em;
     opacity: 0.9;
-    color: #666;
+    color: #999;
     margin-left: 8px;
     font-style: italic;
 }
 
+/* ESTATÍSTICAS DE ORDENAÇÃO */
 .sort-stats {
-    background-color: #2d3748;          
+    background-color: #2d3748;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 20px;
-    border-left: 4px solid #63b3ed;    
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+    border-left: 4px solid #63b3ed;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .sort-stats p {
     margin: 0;
-    color: #e2e8f0;                   
+    color: #e2e8f0;
     font-size: 0.9rem;
-    font-weight: 300;                  
+    font-weight: 300;
 }
 
+/* RODAPÉ */
+.footer {
+    background-color: #181818;
+    color: #ccc;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    border-top: 1px solid #333;
+    margin-top: 40px;
+    width: 100%;
+    box-sizing: border-box;
+}
 
-/* Responsividade */
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.footer-content {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    line-height: 1.5;
+}
+
+/* RESPONSIVIDADE */
 @media (min-width: 768px) {
     .footer-content {
         flex-direction: row;
@@ -334,7 +264,9 @@ select {
         font-size: 2rem;
     }
 
-    button, input[type="text"], select {
+    button,
+    input[type="text"],
+    select {
         font-size: 1rem;
         padding: 10px;
     }
@@ -347,6 +279,5 @@ select {
     .nav-links {
         flex-direction: column;
         align-items: center;
-        gap: 10px;
     }
 }

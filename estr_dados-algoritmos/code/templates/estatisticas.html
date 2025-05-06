@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estatísticas de Algoritmos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Estatísticas de Algoritmos</h1>
+
+        <div class="results-container">
+            {% if registro_sorts %}
+            <div class="result-section">
+                <h2>Algoritmos de Ordenação</h2>
+                <canvas id="graficoOrdenacao"></canvas>
+            </div>
+            {% endif %}
+
+            {% if registro_buscas %}
+            <div class="result-section">
+                <h2>Algoritmos de Busca</h2>
+                <canvas id="graficoBusca"></canvas>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="links">
+            <a href="/">🔍 Voltar para a Busca</a>
+            <a href="/livros">📚 Ver Todos os Livros</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p><strong>Nome:</strong> Gabriel do Nascimento Lopes</p>
+            <p><strong>Turma:</strong> 3º Ano B</p>
+            <p><strong>Atividade:</strong> UN2: AV2 - Sistema de Busca e Ordenação de Acervo de Livros</p>
+            <p><strong>Email:</strong> <a href="mailto:gabriellopes.zip@email.com">gabriellopes.zip@email.com</a></p>
+            <p><strong>GitHub:</strong> <a href="https://github.com/gabrieldonlopes/ifba_project/tree/main/estr_dados-algoritmos/code" target="_blank">github.com/gabrieldonlopes</a></p>
+        </div>
+    </footer>
+
+    <script>
+        Chart.register(ChartDataLabels);
+
+        const dadosOrdenacao = {{ registro_sorts|tojson }};
+        const dadosBusca = {{ registro_buscas|tojson }};
+
+        const graficos = {};  // objeto para armazenar referências aos gráficos
+
+        function gerarCores(qtd) {
+            return Array.from({ length: qtd }, (_, i) => `hsl(${(i * 360 / qtd)}, 70%, 50%)`);
+        }
+
+        function gerarGrafico(ctxId, titulo, dados) {
+            const ctx = document.getElementById(ctxId).getContext('2d');
+
+            // Se já existir gráfico neste canvas, destrua-o
+            if (graficos[ctxId]) {
+                graficos[ctxId].destroy();
+            }
+
+            const labels = dados.map(d => d.algoritmo);
+            const tempos = dados.map(d => Number(d.tempo));
+            const iteracoes = dados.map(d => d.iteracoes);
+            const cores = gerarCores(dados.length);
+
+            const novoGrafico = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Tempo (ms)',
+                        data: tempos,
+                        backgroundColor: cores,
+                        borderColor: '#444',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    aspectRatio: 2,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: titulo,
+                            color: '#61dafb',
+                            font: { size: 18, weight: 'bold' }
+                        },
+                        legend: { display: false },
+                        datalabels: {
+                            color: '#fff',
+                            anchor: 'end',
+                            align: 'top',
+                            formatter: (value, context) =>
+                                `${iteracoes[context.dataIndex]} iterações\n${value.toFixed(2)}ms`
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Algoritmo', color: '#61dafb' },
+                            ticks: { color: '#e0e0e0' },
+                            grid: { color: '#333' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Tempo (ms)', color: '#61dafb' },
+                            ticks: { color: '#e0e0e0' },
+                            grid: { color: '#333' },
+                            beginAtZero: true
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
+
+            // Salva a instância para futuras destruições
+            graficos[ctxId] = novoGrafico;
+        }
+
+        if (dadosOrdenacao && dadosOrdenacao.length > 0) {
+            gerarGrafico('graficoOrdenacao', 'Desempenho dos Algoritmos de Ordenação', dadosOrdenacao);
+        }
+
+        if (dadosBusca && dadosBusca.length > 0) {
+            gerarGrafico('graficoBusca', 'Desempenho dos Algoritmos de Busca', dadosBusca);
+        }
+    </script>
+</body>
+</html>

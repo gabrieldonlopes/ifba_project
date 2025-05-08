@@ -6,7 +6,6 @@ from database import Livro
 
 # Linear Search com tempo e iterações
 def linear_search(key: str, arr: List[Livro], field: str): # type hint garante o tipo dos parâmetros
-    
     start_time = time()
     iterations = 0
     encontrados = []
